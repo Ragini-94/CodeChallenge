@@ -6,5 +6,6 @@
 	<classpathentry kind="src" path="src/test/resources"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="con" path="org.springsource.ide.eclipse.gradle.classpathcontainer"/>
+	<classpathentry kind="lib" path="/Users/a212604433/Downloads/log4j-1.2.16.jar.zip"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

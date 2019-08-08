@@ -21,19 +21,15 @@ public class ServerLogs {
 	static Long timestamp_finished;
 		public static void main(String[] args)    throws IOException {
 			LOG.info("Main Method:");
-            	 ArrayList<JSONObject> json=new ArrayList<JSONObject>();
+			ArrayList<JSONObject> json=new ArrayList<JSONObject>();
             	 JSONObject obj,obj1 = null;
             	    // The name of the file to open.
             	    String fileName = "/Users/a212604433/Documents/test/ServerLogsCreditSuisse/src/main/resources/org/gradle/Logs.json";
             	    String fileName1 = "/Users/a212604433/Documents/test/ServerLogsCreditSuisse/src/main/resources/org/gradle/Logs.json";
             	    // This will reference one line at a time
-            	    
-
-            	  
-            	        // FileReader reads text files in the default encoding.
+            	    // FileReader reads text files in the default encoding.
             	        FileReader fileReader = new FileReader(fileName);
             	        FileReader fileReader1 = new FileReader(fileName1);
-            	        
             	        // Always wrap FileReader in BufferedReader.
             	        BufferedReader bufferedReader = new BufferedReader(fileReader);
             	        BufferedReader bufferedReader1 = new BufferedReader(fileReader1);
@@ -46,15 +42,10 @@ public class ServerLogs {
             	            state=(String)obj.get("state");
             	            timestamp_started = (Long)obj.get("timestamp");
             	            LOG.info(id +","+ state + "," + timestamp_started);
-            	           
             	            			while((line1 = bufferedReader1.readLine()) != null) {
-            	            				getInnerLoopValues(obj1 , id ,timestamp_started, line1);
-		            	            
-		            	            
-            	            		
-            	            	 }
-            	            }
-            	        
+            	            				getInnerLoopValues(obj1 , id ,timestamp_started, line1);  //for innerloop which will check for the id 
+		            	   }
+            	          }
             	        // Always close files.
             	        bufferedReader.close();   
             	        bufferedReader1.close();
@@ -72,13 +63,13 @@ public class ServerLogs {
             	    }
             }
 
-		private static void getInnerLoopValues(JSONObject obj1, String id, Long timestamp_started,String line1) {
+	private static void getInnerLoopValues(JSONObject obj1, String id, Long timestamp_started,String line1) {
 			// TODO Auto-generated method stub
 			 ArrayList<JSONObject> json1=new ArrayList<JSONObject>();
 			try {
 				obj1 = (JSONObject) new JSONParser().parse(line1);
 				json1.add(obj1);
-				System.out.println((String)obj1.get("id") +","+ (String)obj1.get("state")+ "," + (Long)obj1.get("timestamp"));
+				LOG.info((String)obj1.get("id") +","+ (String)obj1.get("state")+ "," + (Long)obj1.get("timestamp"));
             	 	if(id.equalsIgnoreCase((String)obj1.get("id")) && ("FINISHED").equalsIgnoreCase((String)obj1.get("state"))) 
             	 		{
             	 			timestamp_finished = (Long)(obj1.get("timestamp"));
@@ -87,7 +78,7 @@ public class ServerLogs {
             	 					LOG.info("Alert :greater than 4");
             	 					String type=(String) obj1.get("type");
             	 					String host= (String) obj1.get("host");
-            	 					checkforValues(id,type,host,duration);
+            	 					checkforValues(id,type,host,duration);  //will check whether type and host is not null
             	 					  //save the data is a  location
             	 								}
             	 		}
@@ -98,11 +89,11 @@ public class ServerLogs {
 			}
 		}
 
-		private static void checkforValues(String id, String type, String host, long duration) {
+	private static void checkforValues(String id, String type, String host, long duration) {
 			// TODO Auto-generated method stub
 			if(type!=null && host!=null) {
 				try {
-					saveLogData(id,type,host,duration);
+					saveLogData(id,type,host,duration);  //save the data in table where duration is greater than 4
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
