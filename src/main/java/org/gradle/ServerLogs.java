@@ -6,7 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFTable;
 import org.apache.poi.xwpf.usermodel.XWPFTableRow;
@@ -14,7 +15,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 public class ServerLogs {
-	private static final Logger LOG = Logger.getLogger(ServerLogs.class);
+	final static Logger LOG = LoggerFactory.getLogger(ServerLogs.class);
 	static String line;
 	static String line1;
 	static Long timestamp_started;
@@ -25,11 +26,11 @@ public class ServerLogs {
             	 JSONObject obj,obj1 = null;
             	    // The name of the file to open.
             	    String fileName = "/Users/a212604433/Documents/test/ServerLogsCreditSuisse/src/main/resources/org/gradle/Logs.json";
-            	    String fileName1 = "/Users/a212604433/Documents/test/ServerLogsCreditSuisse/src/main/resources/org/gradle/Logs.json";
+            	    //String fileName1 = "/Users/a212604433/Documents/test/ServerLogsCreditSuisse/src/main/resources/org/gradle/Logs.json";
             	    // This will reference one line at a time
             	    // FileReader reads text files in the default encoding.
             	        FileReader fileReader = new FileReader(fileName);
-            	        FileReader fileReader1 = new FileReader(fileName1);
+            	        FileReader fileReader1 = new FileReader(fileName);
             	        // Always wrap FileReader in BufferedReader.
             	        BufferedReader bufferedReader = new BufferedReader(fileReader);
             	        BufferedReader bufferedReader1 = new BufferedReader(fileReader1);
@@ -41,6 +42,7 @@ public class ServerLogs {
             	            id=(String)obj.get("id");
             	            state=(String)obj.get("state");
             	            timestamp_started = (Long)obj.get("timestamp");
+            	            LOG.info("Main Loop Values");
             	            LOG.info(id +","+ state + "," + timestamp_started);
             	            			while((line1 = bufferedReader1.readLine()) != null) {
             	            				getInnerLoopValues(obj1 , id ,timestamp_started, line1);  //for innerloop which will check for the id 
@@ -65,6 +67,7 @@ public class ServerLogs {
 
 	private static void getInnerLoopValues(JSONObject obj1, String id, Long timestamp_started,String line1) {
 			// TODO Auto-generated method stub
+		 LOG.info("Inside Inner Loop - Inner Loop Values");
 			 ArrayList<JSONObject> json1=new ArrayList<JSONObject>();
 			try {
 				obj1 = (JSONObject) new JSONParser().parse(line1);
@@ -105,6 +108,7 @@ public class ServerLogs {
 	private static void saveLogData(String id, String type, String host, long duration) throws IOException {
 			// TODO Auto-generated method stub
 			Calendar cal = Calendar.getInstance();
+			LOG.info("table saved in /..../..../Documents/test/ServerLogsCreditSuisse/Logs_" +cal.getTime()+ ".docx"); 
 			LOG.info("Logs for Date - >" +cal.getTime());
 			XWPFDocument document = new XWPFDocument();
 			XWPFTable tableOne = document.createTable();
